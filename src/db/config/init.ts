@@ -1,6 +1,6 @@
 
 import { Sequelize } from "sequelize";
-import { Ingredient } from '../models/Ingredient'
+import { Ingredient } from '../models/IngredientModel'
 
 export const sequelizeConn = new Sequelize({
     dialect: "sqlite",
@@ -19,7 +19,7 @@ export const dbInit = () => {
         console.error("Unable to connect to the database:", error);
     });
 
-    Ingredient.inicio()
+    Ingredient.inicio();
 
     sequelizeConn.sync()
     .then(() => {

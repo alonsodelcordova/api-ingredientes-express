@@ -1,8 +1,8 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model } from "sequelize";
 import { sequelizeConn } from "../config/init";
 
-interface IngredientAttributes {
-  id: number;
+export interface IngredientModel {
+  id?: number;
   name: string;
   slug: string;
   description?: string;
@@ -11,26 +11,8 @@ interface IngredientAttributes {
   updatedAt?: Date;
   deletedAt?: Date;
 }
-export interface IngredientInput
-  extends Optional<IngredientAttributes, "id" | "slug"> {}
 
-export interface IngredientOuput extends Required<IngredientAttributes> {}
-
-export class Ingredient
-  extends Model<IngredientAttributes, IngredientInput>
-  implements IngredientAttributes
-{
-  public id!: number;
-  public name!: string;
-  public slug!: string;
-  public description!: string;
-  public foodGroup!: string;
-
-  // timestamps!
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-  public readonly deletedAt!: Date;
-
+export class Ingredient extends Model<IngredientModel> {
   public static inicio() {
     this.init(
       {

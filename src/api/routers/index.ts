@@ -6,3 +6,4 @@ const apiRouter = Router()
 apiRouter.use('/ingredients', ingredientsRouter)
 
 export default apiRouter
+

@@ -1,8 +1,8 @@
 import { CreateIngredientDTO, IngredientDto } from "../dto/ingredient"
-import { IngredientInput, IngredientOuput } from "../../db/models/Ingredient"
+import { IngredientModel } from "../../db/models/IngredientModel"
 
 
-export const toIngredient = (ingredient: IngredientOuput):IngredientDto => {
+export const toIngredient = (ingredient: IngredientModel):IngredientDto => {
     return {
         id: ingredient.id,
         name: ingredient.name,
@@ -15,7 +15,7 @@ export const toIngredient = (ingredient: IngredientOuput):IngredientDto => {
     }
 }
 
-export const toIngredientInput = (ingredient: CreateIngredientDTO): IngredientInput => {
+export const toIngredientInput = (ingredient: CreateIngredientDTO): IngredientModel => {
     return {
         name: ingredient.name,
         slug: ingredient.slug,
