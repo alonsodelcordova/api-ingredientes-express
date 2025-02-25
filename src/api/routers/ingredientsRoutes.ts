@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import * as ingredientController from '../controllers/ingredient_controller'
+import { authMiddleware } from '../middlewares/authMiddleware';
 
 const ingredientsRouter = Router()
-
+ingredientsRouter.use(authMiddleware)
 
 ingredientsRouter.post('/', ingredientController.createIngredientController);
 ingredientsRouter.get('/', ingredientController.consultarIngredientesController);
