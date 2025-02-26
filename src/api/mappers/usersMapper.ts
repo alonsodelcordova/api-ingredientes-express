@@ -1,5 +1,5 @@
-import { UsuarioModel } from "../../db/models/usuarioModel"
-import { CreateUsuarioDto, UsuarioDto } from "../dto/usersDto"
+import { TokenModel, UsuarioModel } from "../../db/models/usuarioModel"
+import { CreateUsuarioDto, TokenDto, UsuarioDto } from "../dto/usersDto"
 
 
 export const toUserModelCreate = (user: CreateUsuarioDto): UsuarioModel => {
@@ -27,5 +27,12 @@ export const toUserModel = (user: UsuarioDto): UsuarioModel => {
         photo: user.photo,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
+    }
+}
+
+export const toTokenDto = (user: TokenModel): TokenDto => {
+    return {
+        token: user.token,
+        userId: user.userId
     }
 }

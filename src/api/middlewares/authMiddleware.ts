@@ -1,8 +1,9 @@
 import {  Response, NextFunction, Request } from 'express';
 import jwt from 'jsonwebtoken';
 import { TOKEN_SECRET } from '../../helpers/constants';
+import * as userService from '../../services/usuariosService';
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) : any => {
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction) : Promise<any> => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
     if (!token) {
         return res.status(401).json({ 
@@ -13,9 +14,18 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
     try {
         const decoded = jwt.verify(token, TOKEN_SECRET);
-        //req.user = decoded; // Asignar el usuario decodificado al request
+        const data =  await userService.consultarToken(token)
+        if(!data){
+            return res.status(401).json({ 
+                success: false,
+                message: 'Token inválido'
+            });
+        }
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Token inválido' });
+        next({
+            code: 401,
+            message: 'Token inválido'
+        })
     }
 };

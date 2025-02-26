@@ -5,6 +5,7 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 const userRouter = Router();
 
 userRouter.get('/', authMiddleware, userController.consultarUsuariosController)
+userRouter.post('/logout', authMiddleware, userController.cerrarSesionController)
 
 userRouter.post('/register', userController.registrarUsuarioController)
 userRouter.post('/login', userController.iniciarSesion)

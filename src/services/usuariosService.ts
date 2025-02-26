@@ -1,7 +1,7 @@
 import * as userRepository from '../db/repository/users_repository'
 import * as mapperUser from '../api/mappers/usersMapper'
 import {UsuarioModel, TokenModel} from '../db/models/usuarioModel'
-import { CreateUsuarioDto, LoginDto, UsuarioDto } from '../api/dto/usersDto'
+import { CreateUsuarioDto, LoginDto, TokenDto, UsuarioDto } from '../api/dto/usersDto'
 import jwt from 'jsonwebtoken'
 import { TOKEN_SECRET } from '../helpers/constants'
 
@@ -50,4 +50,14 @@ export const iniciarSesion = async (user: CreateUsuarioDto): Promise<LoginDto> =
         photo: userFound.photo || '',
         token: token.token
     }
+}
+
+
+export const cerrarSesion = async (token: string) => {
+    await userRepository.eliminarToken(token)
+}
+
+export const consultarToken = async (token: string): Promise<TokenDto> => {
+    const user = await userRepository.consultarToken(token)
+    return mapperUser.toTokenDto(user)
 }

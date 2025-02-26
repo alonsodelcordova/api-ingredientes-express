@@ -18,3 +18,8 @@ export interface LoginDto {
     photo: string;
     token: string;
 }
+
+export interface TokenDto {
+    token: string;
+    userId: number;
+}
