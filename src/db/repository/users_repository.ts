@@ -6,6 +6,8 @@ import {
 } from "../models/usuarioModel";
 
 export const consultarUsuarios = async (): Promise<UsuarioModel[]> => {
+  //const users = await Usuario.findAll({ include: 'tokens' });
+  //console.log(users);
   const users = await Usuario.findAll();
   return users.map((user) => user.toJSON() as UsuarioModel);
 };
@@ -20,26 +22,26 @@ export const crearUserRepository = async (
 
 export const consultarUsuarioById = async (
   id: number
-): Promise<UsuarioModel> => {
+): Promise<UsuarioModel|undefined> => {
   const user = await Usuario.findByPk(id);
-  if (!user) {
-    throw new Error("No se encontró el usuario");
+  if (user) {
+    return user.toJSON() as UsuarioModel;
   }
-  return user.toJSON() as UsuarioModel;
+  return undefined;
 };
 
 export const consultarUsuarioByUsername = async (
   username: string
-): Promise<UsuarioModel> => {
+): Promise<UsuarioModel|undefined> => {
   const user = await Usuario.findOne({
     where: {
       username: username,
     },
   });
-  if (!user) {
-    throw new Error("No se encontró el usuario");
+  if(user){
+    return user.toJSON() as UsuarioModel;
   }
-  return user.toJSON() as UsuarioModel;
+  return undefined;
 };
 
 export const registrarUsuario = async (
@@ -59,16 +61,16 @@ export const crearToken = async (payload: TokenModel): Promise<TokenModel> => {
   return response;
 };
 
-export const consultarToken = async (token: string): Promise<TokenModel> => {
+export const consultarToken = async (token: string): Promise<TokenModel|undefined> => {
   const user = await Token.findOne({
     where: {
       token: token,
     },
   });
-  if (!user) {
-    throw new Error("No se encontró el token");
+  if (user) {
+    return user.toJSON() as TokenModel;
   }
-  return user.toJSON() as TokenModel;
+  return undefined;
 };
 
 export const eliminarToken = async (token: string): Promise<boolean> => {

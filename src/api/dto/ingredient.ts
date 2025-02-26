@@ -6,9 +6,9 @@ export interface CreateIngredientDTO {
 }
 
 export interface UpdateIngredientDTO {
-  name?: string;
-  description?: string;
-  foodGroup?: string;
+  name: string;
+  description: string;
+  foodGroup: string;
 }
 
 export interface FilterIngredientsDTO {}

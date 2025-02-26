@@ -37,6 +37,10 @@ export const iniciarSesion = async (
   const userFound = await userRepository.consultarUsuarioByUsername(
     user.username
   );
+  if(!userFound){
+    throw new Error("Usuario no encontrado");
+  }
+
   if (userFound.password != user.password) {
     throw new Error("Contraseña incorrecta");
   }
@@ -70,5 +74,8 @@ export const cerrarSesion = async (token: string) => {
 
 export const consultarToken = async (token: string): Promise<TokenDto> => {
   const user = await userRepository.consultarToken(token);
+  if (!user) {
+    throw new Error("Token no encontrado");
+  }
   return mapperUser.toTokenDto(user);
 };

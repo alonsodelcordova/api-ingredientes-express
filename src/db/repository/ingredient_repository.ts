@@ -10,25 +10,21 @@ export const create = async (
 
 export const update = async (
   id: number,
-  payload: Partial<IngredientModel>
-): Promise<IngredientModel> => {
-  const ingredient = await Ingredient.findByPk(id);
-  if (!ingredient) {
-    // @todo throw custom error
-    throw new Error("No se encontró el ingrediente");
-  }
-  const updatedIngredient = await (ingredient as Ingredient).update(payload);
-  const response = updatedIngredient.toJSON() as IngredientModel;
-  return response;
+  ingredient: IngredientModel
+): Promise<boolean> => {
+  const insertInt = await Ingredient.update(ingredient, {
+    where: { id }
+  });
+  return insertInt[0] > 0;
 };
 
-export const getById = async (id: number): Promise<IngredientModel> => {
+export const getById = async (id: number): Promise<IngredientModel|undefined> => {
   const ingredient = await Ingredient.findByPk(id);
-  if (!ingredient) {
-    // @todo throw cust
-    throw new Error("No se encontró el ingrediente");
+  if (ingredient) {
+    return ingredient.toJSON() as IngredientModel;
   }
-  return ingredient.toJSON() as IngredientModel;
+  return undefined;
+  
 };
 
 export const deleteById = async (id: number): Promise<boolean> => {
@@ -42,3 +38,14 @@ export const getAll = async (): Promise<IngredientModel[]> => {
   const data = await Ingredient.findAll();
   return data.map((ingredient) => ingredient.toJSON() as IngredientModel);
 };
+
+
+export const getBySlug = async (slug: string): Promise<IngredientModel|undefined> => {
+  const ingredient = await Ingredient.findOne({
+    where: { slug },
+  });
+  if (ingredient) {
+    return ingredient.toJSON() as IngredientModel;
+  }
+  return undefined;
+}
