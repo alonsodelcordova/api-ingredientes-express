@@ -30,7 +30,7 @@ export const dbInit = () => {
   Usuario.hasMany(Token, { foreignKey: "userId", as: "tokens" });
   Token.belongsTo(Usuario, { foreignKey: "userId", as: "user" });
 
-  Receta.hasMany(IngredientReceta, { foreignKey: "recetaId", as: "ingredientes" });
+  Receta.hasMany(IngredientReceta, { foreignKey: "recetaId", as: "ingredientes", onDelete: "CASCADE" });
   IngredientReceta.belongsTo(Receta, { foreignKey: "recetaId", as: "receta" });
 
   Ingredient.hasMany(IngredientReceta, { foreignKey: "ingredientId", as: "ingredientes" });

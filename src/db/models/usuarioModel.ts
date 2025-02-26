@@ -35,6 +35,7 @@ export class Usuario extends Model<UsuarioModel> {
       {
         timestamps: true,
         sequelize: sequelizeConn,
+        paranoid: true,
       }
     );
   }

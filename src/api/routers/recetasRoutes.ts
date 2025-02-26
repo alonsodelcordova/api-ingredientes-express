@@ -11,5 +11,8 @@ recetaRouter.post("/", recetaController.registrarReceta);
 // CONSULTAR RECETA
 recetaRouter.get("/:id", recetaController.getReceta);
 
+//ELIMINAR RECETA
+recetaRouter.delete("/:id", recetaController.deleteReceta);
+
 
 export default recetaRouter;

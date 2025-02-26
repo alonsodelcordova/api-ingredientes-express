@@ -33,3 +33,18 @@ export const getReceta = async (req: Request, res: any) => {
         });
     }
 }
+
+export const deleteReceta = async (req: Request, res: any) => {
+    try{
+        const id = parseInt(req.params.id);
+        const result = await recetasService.deleteReceta(id);
+        return res.status(200).json({
+            success: result
+        });
+    }catch(e:any){
+        return res.status(404).json({
+            message: e.message,
+            success: false,
+        });
+    }
+}

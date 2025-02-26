@@ -57,3 +57,20 @@ export const getRecetaByIdRepository = async (
   }
   return undefined;
 };
+
+
+export const deleteRecetaRepository = async (
+  id: number
+): Promise<boolean> => {
+    const deletedRecetaCount = await Receta.destroy({
+        where: { id },
+    });
+    return !!deletedRecetaCount;
+}
+
+export const existeRecetaRepository = async (
+    id: number
+): Promise<boolean> => {
+    const receta = await Receta.findByPk(id);
+    return receta !== null;
+}

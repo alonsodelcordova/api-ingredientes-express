@@ -54,7 +54,6 @@ export class Receta extends Model<RecetaModel> {
             {
                 timestamps: true,
                 sequelize: sequelizeConn,
-                paranoid: true,
             }
         );
     }
@@ -106,8 +105,7 @@ export class IngredientReceta extends Model<IngredientRecetaModel> {
             },
             {
                 timestamps: true,
-                sequelize: sequelizeConn,
-                paranoid: true,
+                sequelize: sequelizeConn
             }
         );
     }
