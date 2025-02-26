@@ -10,6 +10,7 @@ export interface IngredientModel {
   createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+  image?: string;
 }
 
 export class Ingredient extends Model<IngredientModel> {
@@ -34,6 +35,9 @@ export class Ingredient extends Model<IngredientModel> {
           type: DataTypes.TEXT,
         },
         foodGroup: {
+          type: DataTypes.STRING,
+        },
+        image: {
           type: DataTypes.STRING,
         },
       },

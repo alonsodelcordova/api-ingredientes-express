@@ -34,10 +34,8 @@ export const consultarUsuarios = async (): Promise<UsuarioDto[]> => {
 export const iniciarSesion = async (
   user: CreateUsuarioDto
 ): Promise<LoginDto> => {
-  const userFound = await userRepository.consultarUsuarioByUsername(
-    user.username
-  );
-  if(!userFound){
+  const userFound = await userRepository.consultarUsuarioByUsername(user.username);
+  if (!userFound) {
     throw new Error("Usuario no encontrado");
   }
 

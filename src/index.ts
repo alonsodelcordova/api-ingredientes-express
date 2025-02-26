@@ -12,6 +12,7 @@ dbInit();
 
 // main router
 app.use("/api/v1", apiRouter);
+app.use("/uploads", express.static("uploads"));
 
 // error middleware
 app.use(errorMiddleware);

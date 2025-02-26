@@ -81,3 +81,22 @@ export const getAllIngredientes = async (): Promise<IngredientDto[]> => {
   const data = await ingredientRepository.getAll();
   return data.map(mapper.toIngredient);
 };
+
+
+
+export const updateImageIngredient = async (
+  id: number,
+  image: string
+): Promise<IngredientDto> => {
+  const ingredient = await ingredientRepository.getById(id);
+  if (!ingredient) {
+    throw new Error("Ingredient not found");
+  }
+  ingredient.image = image;
+
+  const result = await ingredientRepository.update(id, ingredient);
+  if (!result) {
+    throw new Error("Ingredient not updated");
+  }
+  return mapper.toIngredient(ingredient);
+}
