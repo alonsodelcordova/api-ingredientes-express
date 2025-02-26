@@ -3,10 +3,16 @@ import * as mapperUser from '../api/mappers/usersMapper'
 import {UsuarioModel, TokenModel} from '../db/models/usuarioModel'
 import { CreateUsuarioDto, LoginDto, UsuarioDto } from '../api/dto/usersDto'
 import jwt from 'jsonwebtoken'
-
-const SECRET = process.env.JWT_SECRET || ''
+import { TOKEN_SECRET } from '../helpers/constants'
 
 export const registrarUsuario = async (user:CreateUsuarioDto): Promise<UsuarioDto> => {
+
+    const userExist = await userRepository.consultarUsuarioByUsername(user.username)
+
+    if (userExist) {
+        throw new Error('El usuario ya existe')
+    }
+
     const userModel: UsuarioModel = mapperUser.toUserModelCreate(user)
     const userCreated = await userRepository.crearUserRepository(userModel)
     return mapperUser.toUserDto(userCreated)
@@ -23,12 +29,16 @@ export const iniciarSesion = async (user: CreateUsuarioDto): Promise<LoginDto> =
         throw new Error('Contraseña incorrecta')
     }
 
-    const token_src = jwt.sign({
-        id: userFound.id,
-        username: userFound.username
-    },SECRET,  {
-        expiresIn: 60 * 60 * 24
-    })
+    const token_src = jwt.sign(
+        {
+            id: userFound.id,
+            username: userFound.username
+        },
+        TOKEN_SECRET,  
+        {
+            expiresIn: 60 * 60 * 24
+        }
+    )
 
     const token: TokenModel = {
         token: token_src,

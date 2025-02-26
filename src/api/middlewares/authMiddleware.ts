@@ -1,5 +1,6 @@
 import {  Response, NextFunction, Request } from 'express';
 import jwt from 'jsonwebtoken';
+import { TOKEN_SECRET } from '../../helpers/constants';
 
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) : any => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -11,7 +12,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+        const decoded = jwt.verify(token, TOKEN_SECRET);
         //req.user = decoded; // Asignar el usuario decodificado al request
         next();
     } catch (error) {

@@ -7,7 +7,6 @@ export interface CreateUsuarioDto{
 export interface UsuarioDto {
     id?: number;
     username: string;
-    password: string;
     photo?: string;
     createdAt?: Date;
     updatedAt?: Date;

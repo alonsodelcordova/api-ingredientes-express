@@ -21,6 +21,7 @@ export class Usuario extends Model<UsuarioModel>{
             },
             username: {
                 type: DataTypes.STRING,
+                unique: true,
                 allowNull: false
             },
             password: {
