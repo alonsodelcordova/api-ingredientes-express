@@ -6,3 +6,9 @@ package-lock.json
 **/**.sqlite
 **/**.sqlite-journal
 **/**.sqlite3
+/uploads/**/**.jpg
+/uploads/**/**.jpeg
+/uploads/**/**.png
+/uploads/**/**.gif
+/uploads/**/**.svg
+/uploads/**/**.webp

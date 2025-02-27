@@ -1,4 +1,4 @@
-export interface Error{
-    message: string;
-    code: number;
+export interface Error {
+  message: string;
+  code: number;
 }

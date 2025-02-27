@@ -1,26 +1,114 @@
+import * as ingredientRepository from "../db/repository/ingredient_repository";
+import { IngredientModel } from "../db/models/IngredientModel";
+import * as mapper from "../api/mappers/ingredient_mapper";
+import {
+  CreateIngredientDTO,
+  IngredientDto,
+  UpdateIngredientDTO,
+} from "../api/dto/ingredient";
+import { eliminarImagenHelper } from "../helpers/fileHelpers";
 
-import * as ingredientDal from '../db/dal/ingredient_repository'
-import {IngredientInput, IngredientOuput} from '../db/models/Ingredient'
-import * as mapper from '../api/mappers/ingredient_mapper'
-import { CreateIngredientDTO, IngredientDto, UpdateIngredientDTO } from '../api/dto/ingredient'
+//----------------------------------------------------------------
+// REGISTRAR INGREDIENTE
+//----------------------------------------------------------------
+export const create = async (
+  payload: CreateIngredientDTO
+): Promise<IngredientDto> => {
 
-export const create = async (payload: CreateIngredientDTO): Promise<IngredientDto> => {
-    const ingredientModel: IngredientInput= mapper.toIngredientInput(payload)
-    const ingredient = await ingredientDal.create(ingredientModel)
-    return mapper.toIngredient(ingredient)
-}
-export const update = async (id: number, payload: Partial<UpdateIngredientDTO>): Promise<IngredientDto> => {
-    const result: IngredientOuput = await ingredientDal.update(id, payload)
-    return mapper.toIngredient(result)
-}
+  const ingredientExists = await ingredientRepository.getBySlug(payload.slug);
+  if (ingredientExists) {
+    throw new Error("Ingrediente ya existe con ese slug");
+  }
+
+
+  const ingredientModel: IngredientModel = mapper.toIngredientInput(payload);
+  const ingredient = await ingredientRepository.create(ingredientModel);
+  return mapper.toIngredient(ingredient);
+};
+
+
+//----------------------------------------------------------------
+// ACTUALIZAR INGREDIENTE
+//----------------------------------------------------------------
+export const update = async (
+  id: number,
+  payload: UpdateIngredientDTO
+): Promise<IngredientDto> => {
+  const ingredient = await ingredientRepository.getById(id);
+  if (!ingredient) {
+    throw new Error("Ingredient not found");
+  }
+  ingredient.name = payload.name;
+  ingredient.description = payload.description;
+  ingredient.foodGroup = payload.foodGroup;
+
+  const result = await ingredientRepository.update(id, ingredient);
+  if (!result) {
+    throw new Error("Ingredient not updated");
+  }
+  return mapper.toIngredient(ingredient);
+};
+
+
+//----------------------------------------------------------------
+// OBTENER INGREDIENTE POR ID
+//----------------------------------------------------------------
 export const getById = async (id: number): Promise<IngredientDto> => {
-    const result: IngredientOuput = await ingredientDal.getById(id)
-    return mapper.toIngredient(result)
-}
+  const result = await ingredientRepository.getById(id);
+  if (!result) {
+    throw new Error("Ingredient not found");
+  }
+  return mapper.toIngredient(result);
+};
+
+
+//----------------------------------------------------------------
+// ELIMINAR INGREDIENTE POR ID
+//----------------------------------------------------------------
 export const deleteById = async (id: number): Promise<boolean> => {
-    return await ingredientDal.deleteById(id)
-}
+  const ingredient = await ingredientRepository.getById(id);
+  if (!ingredient) {
+    throw new Error("Ingredient not found");
+  }
+  const image = ingredient.image;
+
+  const isDelete = await ingredientRepository.deleteById(id);
+  if (isDelete && image) {
+    eliminarImagenHelper(image);
+  }
+  return isDelete
+  
+};
+
+
+//----------------------------------------------------------------
+// OBTENER TODOS LOS INGREDIENTES
+//----------------------------------------------------------------
 export const getAllIngredientes = async (): Promise<IngredientDto[]> => {
-    const data = await ingredientDal.getAll()
-    return data.map(mapper.toIngredient)
+  const data = await ingredientRepository.getAll();
+  return data.map(mapper.toIngredient);
+};
+
+
+
+export const updateImageIngredient = async (
+  id: number,
+  image: string
+): Promise<IngredientDto> => {
+  const ingredient = await ingredientRepository.getById(id);
+  if (!ingredient) {
+    throw new Error("Ingredient not found");
+  }
+
+  if (ingredient.image) {
+    eliminarImagenHelper(ingredient.image);
+  }
+
+  ingredient.image = image;
+
+  const result = await ingredientRepository.update(id, ingredient);
+  if (!result) {
+    throw new Error("Ingredient not updated");
+  }
+  return mapper.toIngredient(ingredient);
 }
