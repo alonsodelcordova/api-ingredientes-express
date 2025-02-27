@@ -6,7 +6,7 @@ import {
   IngredientDto,
   UpdateIngredientDTO,
 } from "../api/dto/ingredient";
-
+import { eliminarImagenHelper } from "../helpers/fileHelpers";
 
 //----------------------------------------------------------------
 // REGISTRAR INGREDIENTE
@@ -70,7 +70,14 @@ export const deleteById = async (id: number): Promise<boolean> => {
   if (!ingredient) {
     throw new Error("Ingredient not found");
   }
-  return await ingredientRepository.deleteById(id);
+  const image = ingredient.image;
+
+  const isDelete = await ingredientRepository.deleteById(id);
+  if (isDelete && image) {
+    eliminarImagenHelper(image);
+  }
+  return isDelete
+  
 };
 
 
@@ -92,6 +99,11 @@ export const updateImageIngredient = async (
   if (!ingredient) {
     throw new Error("Ingredient not found");
   }
+
+  if (ingredient.image) {
+    eliminarImagenHelper(ingredient.image);
+  }
+
   ingredient.image = image;
 
   const result = await ingredientRepository.update(id, ingredient);

@@ -52,6 +52,16 @@ export const registrarUsuario = async (
   return response;
 };
 
+export const actualizarUsuario = async (
+  id: number,
+  userInput: UsuarioModel
+): Promise<boolean> => {
+  const userUpd = await Usuario.update(userInput, {
+    where: { id },
+  });
+  return userUpd[0] > 0;
+}
+
 //---------------------------------------------
 //      TOKEN REPOSITORY
 //---------------------------------------------

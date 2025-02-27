@@ -11,6 +11,7 @@ export const toIngredient = (ingredient: IngredientModel): IngredientDto => {
     createdAt: ingredient.createdAt,
     updatedAt: ingredient.updatedAt,
     deletedAt: ingredient.deletedAt,
+    image: ingredient.image,
   };
 };
 

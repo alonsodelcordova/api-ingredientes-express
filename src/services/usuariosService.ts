@@ -9,6 +9,7 @@ import {
 } from "../api/dto/usersDto";
 import jwt from "jsonwebtoken";
 import { TOKEN_SECRET } from "../helpers/constants";
+import { eliminarImagenHelper } from "../helpers/fileHelpers";
 
 export const registrarUsuario = async (
   user: CreateUsuarioDto
@@ -77,3 +78,27 @@ export const consultarToken = async (token: string): Promise<TokenDto> => {
   }
   return mapperUser.toTokenDto(user);
 };
+
+
+
+export const updateImageUsuario = async (
+  id: number,
+  image: string
+): Promise<UsuarioDto> => {
+  const user = await userRepository.consultarUsuarioById(id);
+  if (!user) {
+    throw new Error("user not found");
+  }
+
+  if (user.photo) {
+    eliminarImagenHelper(user.photo);
+  }
+
+  user.photo = image;
+
+  const result = await userRepository.actualizarUsuario(id, user);
+  if (!result) {
+    throw new Error("user not updated");
+  }
+  return mapperUser.toUserDto(user);
+}

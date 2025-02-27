@@ -64,26 +64,3 @@ export const eliminarIngredienteController = async (req: Request, res: any) => {
     success: result,
   });
 };
-
-export const updateImagenIngredienteController = async (
-  req: Request,
-  res: any,
-  next: NextFunction
-) => {
-  try {
-    if (!req.file) {
-      return res
-        .status(400)
-        .json({ message: "No se ha subido ninguna imagen." });
-    }
-
-    const filePath = req.file.path;
-    const id = Number(req.params.id);
-    const result = await service.updateImageIngredient(id, filePath);
-    return res
-      .status(200)
-      .json({ message: "Imagen subida con éxito.", filePath });
-  } catch (error) {
-    next(error);
-  }
-};
