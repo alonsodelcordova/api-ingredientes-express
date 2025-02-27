@@ -2,6 +2,7 @@ import { NextFunction, Request } from "express";
 import { updateImageIngredient } from "../../services/ingredientService";
 import { eliminarImagenHelper } from "../../helpers/fileHelpers";
 import { updateImageUsuario } from "../../services/usuariosService";
+import { updateFotoReceta } from "../../services/recetasService";
 
 export const updateImagenController = async (
   req: Request,
@@ -30,14 +31,13 @@ export const updateImagenController = async (
     else if (model == 'user'){
         await updateImageUsuario(id, filePath);
     }    
+    else if (model == 'receta'){
+        await updateFotoReceta(id, filePath);
+    }
     else{
         eliminarImagenHelper(filePath);
         return res.status(400).json({ message: "Modelo no válido." });
     }
-
-
-
-
 
     return res
       .status(200)

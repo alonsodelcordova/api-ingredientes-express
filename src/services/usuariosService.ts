@@ -84,7 +84,7 @@ export const consultarToken = async (token: string): Promise<TokenDto> => {
 export const updateImageUsuario = async (
   id: number,
   image: string
-): Promise<UsuarioDto> => {
+): Promise<boolean> => {
   const user = await userRepository.consultarUsuarioById(id);
   if (!user) {
     throw new Error("user not found");
@@ -93,12 +93,9 @@ export const updateImageUsuario = async (
   if (user.photo) {
     eliminarImagenHelper(user.photo);
   }
-
-  user.photo = image;
-
-  const result = await userRepository.actualizarUsuario(id, user);
+  const result = await userRepository.actualizarFotoUsuario(id, image);
   if (!result) {
     throw new Error("user not updated");
   }
-  return mapperUser.toUserDto(user);
+  return result;
 }

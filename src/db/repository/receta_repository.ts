@@ -1,4 +1,3 @@
-import { sequelizeConn } from "../config/init";
 import {
   IngredientReceta,
   IngredientRecetaModel,
@@ -73,4 +72,16 @@ export const existeRecetaRepository = async (
 ): Promise<boolean> => {
     const receta = await Receta.findByPk(id);
     return receta !== null;
+}
+
+
+export const updateFotoRecetaRepository = async (
+  id: number,
+  image: string
+): Promise<boolean> => {
+  const recetaUpd = await Receta.update(
+    { image: image },
+    { where: { id } }
+  );
+  return recetaUpd[0] > 0;
 }

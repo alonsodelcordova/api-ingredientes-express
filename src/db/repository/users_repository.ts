@@ -52,11 +52,13 @@ export const registrarUsuario = async (
   return response;
 };
 
-export const actualizarUsuario = async (
+export const actualizarFotoUsuario = async (
   id: number,
-  userInput: UsuarioModel
+  uimagen: string
 ): Promise<boolean> => {
-  const userUpd = await Usuario.update(userInput, {
+  const userUpd = await Usuario.update({
+    photo: uimagen,
+  }, {
     where: { id },
   });
   return userUpd[0] > 0;

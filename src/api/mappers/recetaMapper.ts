@@ -28,6 +28,7 @@ export const toReceta = (receta: RecetaModel): RecetaDto => {
         state: receta.state,
         createdAt: receta.createdAt,
         updatedAt: receta.updatedAt,
+        imagen: receta.image,
         ingredientes : receta?.ingredientes?.map( (ing) => ({
             id: ing.id,
             recetaId: ing.recetaId,

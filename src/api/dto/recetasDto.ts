@@ -24,6 +24,7 @@ export interface RecetaDto{
     description?: string;
     preparation?: string;
     state?: number;
+    imagen?: string;
     createdAt?: Date;
     updatedAt?: Date;
     ingredientes?: IngredientRecetaDto[];
