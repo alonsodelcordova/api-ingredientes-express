@@ -1,6 +1,7 @@
 import PDFDocument from "pdfkit-table";
 import * as ingredientService from "../../../services/ingredientService";
 import { IngredientDto } from "../../dto/ingredient";
+import { getDateSrt } from "../../../helpers/dateHelper";
 
 
 export const generateReportIngredientsPDF = async (res: any) => {
@@ -9,19 +10,19 @@ export const generateReportIngredientsPDF = async (res: any) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   const pdfDoc = new PDFDocument();
 
-  pdfDoc.fontSize(15).text("REPORTE DE USUARIOS", { align: "center" });
+  pdfDoc.fontSize(15).text("REPORTE DE INGREDIENTES", { align: "center" });
   pdfDoc.moveDown();
 
   
   const dataIngredients: any[][] = []
   const ingredientes = await ingredientService.getAllIngredientes();
   ingredientes.forEach((ingrediente: IngredientDto) => {
-    const date = ingrediente.createdAt;
-    var dateStr = '';
-    if (date) {
-      dateStr = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-    }
-    dataIngredients.push([ingrediente.slug, ingrediente.name, ingrediente.foodGroup, ingrediente.image,dateStr]);
+    dataIngredients.push([
+        ingrediente.slug, 
+        ingrediente.name, 
+        ingrediente.foodGroup, 
+        ingrediente.image,getDateSrt(ingrediente.createdAt)
+    ]);
   });
 
   pdfDoc.table({

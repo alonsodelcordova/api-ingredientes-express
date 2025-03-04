@@ -1,3 +1,4 @@
+import { IngredientDto } from "./ingredient";
 
 
 
@@ -39,4 +40,5 @@ export interface IngredientRecetaDto{
     unit: string;
     createdAt?: Date;
     updatedAt?: Date;
+    ingredient?: IngredientDto;
 }

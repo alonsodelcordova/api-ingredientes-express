@@ -50,3 +50,8 @@ export const updateFotoReceta = async (
   }
   return result;
 }
+
+export const getAllRecetas = async (): Promise<RecetaDto[]> => {
+  const data = await recetaRepository.getAllRecetasRepository();
+  return data.map((receta) => mapperReceta.toReceta(receta));
+}

@@ -1,5 +1,6 @@
 import { RecetaModel } from "../../db/models/recetaModel"
 import { RecetaDto, RegistrarRecetaDto } from "../dto/recetasDto"
+import { toIngredient } from "./ingredient_mapper"
 
 
 
@@ -37,7 +38,8 @@ export const toReceta = (receta: RecetaModel): RecetaDto => {
             measure: ing.measure,
             unit: ing.unit,
             createdAt: ing.createdAt,
-            updatedAt: ing.updatedAt
+            updatedAt: ing.updatedAt,
+            ingredient:  toIngredient(ing.ingredient) 
         }))
     }
 

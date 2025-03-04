@@ -85,3 +85,16 @@ export const updateFotoRecetaRepository = async (
   );
   return recetaUpd[0] > 0;
 }
+
+export const getAllRecetasRepository = async (): Promise<RecetaModel[]> => {
+  const recetas = await Receta.findAll({
+    include: [
+      {
+        model: IngredientReceta,
+        as: "ingredientes",
+        include: ["ingredient"],
+      },
+    ],
+  });
+  return recetas.map((receta) => receta.toJSON() as RecetaModel);
+}

@@ -1,7 +1,10 @@
 import { CreateIngredientDTO, IngredientDto } from "../dto/ingredient";
 import { IngredientModel } from "../../db/models/IngredientModel";
 
-export const toIngredient = (ingredient: IngredientModel): IngredientDto => {
+export const toIngredient = (ingredient: IngredientModel|undefined): IngredientDto => {
+  if (!ingredient) {
+    return {} as IngredientDto;
+  }
   return {
     id: ingredient.id,
     name: ingredient.name,

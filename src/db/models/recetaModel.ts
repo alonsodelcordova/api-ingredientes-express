@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelizeConn } from "../config/init";
+import { IngredientModel } from "./IngredientModel";
 
 //--------------------------------------------------------------------
 //                  RECETA
@@ -71,6 +72,7 @@ export interface IngredientRecetaModel {
     unit: string;
     createdAt?: Date;
     updatedAt?: Date;
+    ingredient?: IngredientModel;
 }
 
 export class IngredientReceta extends Model<IngredientRecetaModel> {
