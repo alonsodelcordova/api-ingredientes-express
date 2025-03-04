@@ -21,7 +21,7 @@ apiRouter.post(
     filesController.updateImagenController
 );
 
-apiRouter.get('/generate_pdf', filesController.generatePDF);
+apiRouter.get('/generate_user_pdf', filesController.generateUserPDF);
 
 
 export default apiRouter;
