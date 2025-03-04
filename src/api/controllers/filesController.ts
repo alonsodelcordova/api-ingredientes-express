@@ -4,6 +4,7 @@ import * as fileHelpers from "../../helpers/fileHelpers";
 import * as usuariosService from "../../services/usuariosService";
 import * as recetasService from "../../services/recetasService";
 import { generateReportUserPDF } from "./pdfs/reportUsers";
+import { generateReportIngredientsPDF } from "./pdfs/reportIngredientes";
 
 export const updateImagenController = async (
   req: Request,
@@ -51,5 +52,14 @@ export const generateUserPDF = async (req: Request, res: any) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
  
   generateReportUserPDF(res);
+};
+
+
+export const generateIngredientPDF = async (req: Request, res: any) => {
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", 'inline; filename="reporte.pdf"');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+ 
+  generateReportIngredientsPDF(res);
 };
 

@@ -22,6 +22,7 @@ apiRouter.post(
 );
 
 apiRouter.get('/generate_user_pdf', filesController.generateUserPDF);
+apiRouter.get('/generate_ingredient_pdf', filesController.generateIngredientPDF);
 
 
 export default apiRouter;

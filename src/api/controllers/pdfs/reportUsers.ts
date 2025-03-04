@@ -1,5 +1,6 @@
 import PDFDocument from "pdfkit-table";
 import * as usuariosService from "../../../services/usuariosService";
+import { UsuarioDto } from "../../dto/usersDto";
 
 
 export const generateReportUserPDF = async (res: any) => {
@@ -14,7 +15,7 @@ export const generateReportUserPDF = async (res: any) => {
   
   const dataUser: any[][] = []
   const users = await usuariosService.consultarUsuarios();
-  users.forEach((user: any) => {
+  users.forEach((user: UsuarioDto) => {
     const date = user.createdAt;
     var dateStr = '';
     if (date) {
